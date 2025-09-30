@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <rect width="256" height="256" fill="#ffffff"/>
+  <g fill="#000000">
+    <path d="M54 98h18l10 32 10-32h18v60h-12v-42l-13 42h-6l-13-42v42H54z"/>
+    <path d="M144 98h16c18 0 30 12 30 30s-12 30-30 30h-16zm12 12v36h4c12 0 18-7 18-18s-6-18-18-18z"/>
+  </g>
+  <text x="50%" y="185" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="4" fill="#000000">MUNASTARS</text>
+  <text x="50%" y="210" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="6" fill="#000000">RENTALS</text>
+</svg>
