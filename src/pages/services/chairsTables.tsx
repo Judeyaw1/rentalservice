@@ -130,8 +130,8 @@ export default function ChairsTables() {
             Create stylish, functional seating arrangements with Munstars’
             curated collection of chairs and tables. Whether you're hosting a
             romantic wedding, a high-end corporate function, or a cozy backyard
-            celebration, we offer versatile rental options to suit every event
-            style.
+            celebration, we offer good and versatile rental options to suit
+            every event style.
           </p>
           <p className="text-gray-600">
             From classic banquet chairs and modern acrylic styles to rustic farm
