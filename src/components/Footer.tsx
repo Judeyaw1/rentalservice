@@ -1,7 +1,9 @@
 import React from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function Footer() {
+  const navigate = useNavigate();
   return (
     <footer className="bg-gray-900 text-white reveal-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -15,12 +17,15 @@ export function Footer() {
               />
               <div>
                 <h3 className="text-xl">Munastars Rentals</h3>
-                <p className="text-yellow-300 text-sm">Where Your Wishes Shine Bright</p>
+                <p className="text-yellow-300 text-sm">
+                  Where Your Wishes Shine Bright
+                </p>
               </div>
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
-              We bring your celebrations to life with high-quality party essentials and elegant décor. 
-              Making your events seamless and unforgettable since 2020.
+              We bring your celebrations to life with high-quality party
+              essentials and elegant décor. Making your events seamless and
+              unforgettable since 2020.
             </p>
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-sm">
@@ -37,9 +42,13 @@ export function Footer() {
               </div>
             </div>
           </div>
-          
+
           <div>
-            <h4 className="text-lg mb-4">Services</h4>
+            {/* <h4 className="text-lg mb-4">Services</h4> */}
+            <a href="#services" className="text-lg mb-4">
+              Services
+            </a>
+
             <ul className="space-y-2 text-sm text-gray-300">
               <li>Chairs & Tables</li>
               <li>Chafing Dishes</li>
@@ -49,7 +58,7 @@ export function Footer() {
               <li>Full Setup Service</li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-lg mb-4">Event Types</h4>
             <ul className="space-y-2 text-sm text-gray-300">
@@ -62,7 +71,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-sm text-gray-400">
             © 2024 Munastars Rentals. All rights reserved. | Licensed & Insured
