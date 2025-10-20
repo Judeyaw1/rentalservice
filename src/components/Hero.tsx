@@ -131,7 +131,7 @@ export function Hero() {
             </Button>
           </div>
           <div className="mt-8">
-            <p className="text-yellow-300 text-lg">✨ Where Your Wishes Shine Bright ✨</p>
+            <p className="text-white text-lg border-white text-black hover:bg-white hover:text-black transition-all duration-300">✨ Where Your Wishes Shine Bright ✨</p>
           </div>
         </div>
       </div>

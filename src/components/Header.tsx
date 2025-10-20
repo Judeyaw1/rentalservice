@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Phone, Mail } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ export function Header() {
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <a href="#" className="flex items-center space-x-4">
+          <Link to="/" className="flex items-center space-x-4">
             <img
               src="/favicon.svg"
               alt="Munastars Rentals logo"
@@ -30,8 +31,8 @@ export function Header() {
                 Where Your Wishes Shine Bright
               </p>
             </div>
-          </a>
-
+          </Link>
+          
           <nav className="hidden md:flex items-center space-x-8">
             <a
               href="#services"

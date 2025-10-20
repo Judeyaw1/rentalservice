@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
+import { services } from "../data/services";
 
 type QuoteFormData = {
   firstName: string;
@@ -13,6 +15,7 @@ type QuoteFormData = {
   phone: string;
   eventDate: string;
   eventType: string;
+  serviceType: string;
   details: string;
 };
 
@@ -24,6 +27,7 @@ export function Contact() {
     phone: "",
     eventDate: "",
     eventType: "",
+    serviceType: "",
     details: "",
   });
 
@@ -53,8 +57,29 @@ export function Contact() {
 
     toast.loading("Submitting your quote request...", { id: "quote" });
     try {
-      // Simulate API submission
-      await new Promise((res) => setTimeout(res, 800));
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("Email service is not configured. Set VITE_EMAILJS_* env vars.");
+      }
+
+      const templateParams = {
+        first_name: form.firstName,
+        last_name: form.lastName,
+        email: form.email,
+        phone: form.phone,
+        event_date: form.eventDate,
+        event_type: form.eventType,
+        service_type: form.serviceType,
+        details: form.details,
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, {
+        publicKey,
+      });
+
       toast.success("Thanks! We'll be in touch shortly.", { id: "quote" });
       setForm({
         firstName: "",
@@ -63,6 +88,7 @@ export function Contact() {
         phone: "",
         eventDate: "",
         eventType: "",
+        serviceType: "",
         details: "",
       });
     } catch (err) {
@@ -147,6 +173,25 @@ export function Contact() {
                         onChange={(e) => update("eventType", e.target.value)}
                       />
                     </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block mb-2">Service Type</label>
+                    <select
+                      value={form.serviceType}
+                      onChange={(e) => update("serviceType", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    >
+                      <option value="">Select a service</option>
+                      {services.map((service) => (
+                        <option key={service.id} value={service.title}>
+                          {service.title}
+                        </option>
+                      ))}
+                      <option value="Multiple Services">Multiple Services</option>
+                      <option value="Custom Package">Custom Package</option>
+                      <option value="Not Sure">Not Sure</option>
+                    </select>
                   </div>
                   
                   <div>
