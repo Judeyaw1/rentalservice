@@ -62,7 +62,9 @@
     "@swc/core-linux-x64-musl": "*"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0"
+    "@types/node": "^20.10.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3"
   },
   "scripts": {
     "dev": "vite",
