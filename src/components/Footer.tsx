@@ -1,81 +1,117 @@
 import React from "react";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+
+const SERVICE_LINKS = [
+  { label: "Chairs & Tables", path: "/chairsTables" },
+  { label: "Chafing Dishes", path: "/chaffingdishes" },
+  { label: "Charger Plates", path: "/chargerplates" },
+  { label: "Flowers & Décor", path: "/flowerseventdecor" },
+];
+
+const EVENT_TYPES = [
+  "Weddings",
+  "Birthday Parties",
+  "Corporate Events",
+  "Community Gatherings",
+  "Anniversary Celebrations",
+  "Special Occasions",
+];
 
 export function Footer() {
-  const navigate = useNavigate();
+  function scrollTo(id: string) {
+    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
-    <footer className="bg-gray-900 text-white reveal-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="md:col-span-2">
-            <div className="flex items-center space-x-3 mb-4">
-              <img
-                src="/favicon.svg"
-                alt="Munastars Rentals logo"
-                className="h-10 w-auto"
-              />
+    <footer className="bg-gray-950 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <Link to="/" className="flex items-center gap-3 mb-5">
+              <img src="/favicon.svg" alt="Munastars Rentals logo" className="h-10 w-auto" />
               <div>
-                <h3 className="text-xl">Munastars Rentals</h3>
-                <p className="text-yellow-300 text-sm">
-                  Where Your Wishes Shine Bright
-                </p>
+                <p className="font-semibold text-white">Munastars Rentals</p>
+                <p className="text-yellow-400 text-xs">Where Your Wishes Shine Bright</p>
               </div>
-            </div>
-            <p className="text-gray-300 mb-6 max-w-md">
-              We bring your celebrations to life with high-quality party
-              essentials and elegant décor. Making your events seamless and
-              unforgettable since 2020.
+            </Link>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              Bringing celebrations to life with premium party essentials and elegant décor since 2020.
             </p>
-            <div className="space-y-2">
-              <div className="flex items-center space-x-2 text-sm">
-                <Phone className="w-4 h-4" />
-                <span>(555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Mail className="w-4 h-4" />
-                <span>info@munastarsrentals.com</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <MapPin className="w-4 h-4" />
-                <span>Serving Greater Metro Area</span>
-              </div>
+            <div className="space-y-2.5 text-sm text-gray-400">
+              <a href="tel:+15551234567" className="flex items-center gap-2 hover:text-white transition-colors">
+                <Phone className="w-4 h-4 text-yellow-500" />(555) 123-4567
+              </a>
+              <a href="mailto:info@munastarsrentals.com" className="flex items-center gap-2 hover:text-white transition-colors">
+                <Mail className="w-4 h-4 text-yellow-500" />info@munastarsrentals.com
+              </a>
+              <span className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-yellow-500" />Greater Metro Area
+              </span>
             </div>
           </div>
 
+          {/* Services */}
           <div>
-            {/* <h4 className="text-lg mb-4">Services</h4> */}
-            <a href="#services" className="text-lg mb-4">
-              Services
-            </a>
-
-            <ul className="space-y-2 text-sm text-gray-300">
-              <li>Chairs & Tables</li>
-              <li>Chafing Dishes</li>
-              <li>Charger Plates</li>
-              <li>Flowers & Décor</li>
-              <li>Linens & Lighting</li>
-              <li>Full Setup Service</li>
+            <h4 className="font-semibold text-white mb-5">Services</h4>
+            <ul className="space-y-2.5">
+              {SERVICE_LINKS.map(({ label, path }) => (
+                <li key={path}>
+                  <Link to={path} className="text-sm text-gray-400 hover:text-yellow-400 transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <span className="text-sm text-gray-400">Linens & Lighting</span>
+              </li>
+              <li>
+                <span className="text-sm text-gray-400">Full Setup Service</span>
+              </li>
             </ul>
           </div>
 
+          {/* Event types */}
           <div>
-            <h4 className="text-lg mb-4">Event Types</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
-              <li>Weddings</li>
-              <li>Birthday Parties</li>
-              <li>Corporate Events</li>
-              <li>Community Gatherings</li>
-              <li>Anniversary Celebrations</li>
-              <li>Special Occasions</li>
+            <h4 className="font-semibold text-white mb-5">Event Types</h4>
+            <ul className="space-y-2.5">
+              {EVENT_TYPES.map((type) => (
+                <li key={type} className="text-sm text-gray-400">{type}</li>
+              ))}
             </ul>
+          </div>
+
+          {/* Quick links */}
+          <div>
+            <h4 className="font-semibold text-white mb-5">Quick Links</h4>
+            <ul className="space-y-2.5 mb-8">
+              {[["Services", "#services"], ["About", "#about"], ["Contact", "#contact"]].map(([label, id]) => (
+                <li key={id}>
+                  <button
+                    onClick={() => scrollTo(id)}
+                    className="text-sm text-gray-400 hover:text-yellow-400 transition-colors"
+                  >
+                    {label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <h4 className="font-semibold text-white mb-4">Follow Us</h4>
+            <div className="flex gap-3">
+              <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full bg-white/10 hover:bg-yellow-500 flex items-center justify-center transition-colors">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href="#" aria-label="Facebook" className="w-9 h-9 rounded-full bg-white/10 hover:bg-yellow-500 flex items-center justify-center transition-colors">
+                <Facebook className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-sm text-gray-400">
-            © 2024 Munastars Rentals. All rights reserved. | Licensed & Insured
-          </p>
+        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
+          <p>© 2024 Munastars Rentals. All rights reserved.</p>
+          <p>Licensed & Insured · Greater Metro Area</p>
         </div>
       </div>
     </footer>

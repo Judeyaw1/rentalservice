@@ -1,74 +1,99 @@
-import { Card, CardContent } from "./ui/card";
+import React from "react";
 import { Truck, Clock, Star, Headphones } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-const features = [
+const STATS = [
+  { value: "500+", label: "Events Hosted" },
+  { value: "5+", label: "Years in Business" },
+  { value: "5★", label: "Average Rating" },
+  { value: "24hr", label: "Quote Response" },
+];
+
+const FEATURES = [
   {
     icon: Truck,
     title: "Reliable Delivery",
-    description: "Professional delivery, setup, and pickup services for your convenience"
+    description: "Professional delivery, setup, and pickup so you never have to lift a finger.",
   },
   {
     icon: Clock,
-    title: "Timely Service",
-    description: "We understand the importance of timing and ensure everything is ready when you need it"
+    title: "Always On Time",
+    description: "We understand timing is everything — your rentals are ready when you need them.",
   },
   {
     icon: Star,
-    title: "Quality Equipment",
-    description: "High-quality, well-maintained rental items that make your event shine"
+    title: "Premium Quality",
+    description: "Well-maintained, high-quality items that make your event look and feel exceptional.",
   },
   {
     icon: Headphones,
     title: "Expert Support",
-    description: "Our experienced team is here to help you plan and execute the perfect event"
-  }
+    description: "Our experienced team is with you from planning through breakdown.",
+  },
 ];
 
 export function About() {
   return (
-    <section id="about" className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section id="about" className="scroll-mt-20 bg-white">
+      {/* Stats bar */}
+      <div className="bg-yellow-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {STATS.map(({ value, label }) => (
+            <div key={label}>
+              <p className="text-3xl font-bold text-black">{value}</p>
+              <p className="text-sm font-medium text-black/70 mt-0.5">{label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Text side */}
           <div>
-            <h2 className="text-3xl md:text-4xl mb-6">Why Choose Munastars Rentals?</h2>
-            <p className="text-xl text-gray-600 mb-8">
-              With reliable delivery, setup, and pickup services, Munastars Rentals takes the stress out of event planning, 
-              so you can focus on making memories.
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-yellow-600 bg-yellow-100 px-4 py-1.5 rounded-full mb-5">
+              Why Choose Us
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              Why Choose<br />Munastars Rentals?
+            </h2>
+            <p className="text-lg text-gray-500 mb-10 leading-relaxed">
+              With reliable delivery, setup, and pickup services, Munastars Rentals takes the stress out of event planning so you can focus on making memories.
             </p>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <feature.icon className="w-6 h-6 text-yellow-600" />
-                    </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+              {FEATURES.map(({ icon: Icon, title, description }) => (
+                <div key={title} className="flex gap-4">
+                  <div className="shrink-0 w-11 h-11 rounded-xl bg-yellow-100 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-yellow-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg mb-2">{feature.title}</h3>
-                    <p className="text-gray-600 text-sm">{feature.description}</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">{title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          
+
+          {/* Image side */}
           <div className="relative">
-            <div className="aspect-square rounded-lg overflow-hidden shadow-lg">
+            <div className="rounded-3xl overflow-hidden shadow-2xl aspect-square">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1644174547761-de211415598e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D"
+                src="https://images.unsplash.com/photo-1644174547761-de211415598e?w=800&auto=format&fit=crop&q=80"
                 alt="Outdoor party event celebration"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-yellow-400 text-black p-6 rounded-lg shadow-lg">
-              <div className="text-center">
-                <div className="text-2xl mb-1">✨</div>
-                <p className="text-sm">Making memories</p>
-                <p className="text-sm">since 2020</p>
-              </div>
+            {/* Floating badge */}
+            <div className="absolute -bottom-5 -left-5 bg-gray-900 text-white px-6 py-4 rounded-2xl shadow-xl">
+              <p className="text-2xl font-bold text-yellow-400">✨</p>
+              <p className="text-sm font-semibold mt-1">Making memories</p>
+              <p className="text-xs text-gray-400">since 2020</p>
             </div>
+            {/* Decorative ring */}
+            <div className="absolute -top-4 -right-4 w-28 h-28 rounded-full border-4 border-yellow-400/30 -z-10" />
           </div>
         </div>
       </div>

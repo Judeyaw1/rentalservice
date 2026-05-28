@@ -1,56 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "./ui/button";
 
 const SLIDES = [
-  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1584072554475-cacee06c7240?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1758705477576-8783430d55b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1653821355692-03666613499f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0",
+  "https://images.unsplash.com/photo-1584072554475-cacee06c7240?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0",
+  "https://images.unsplash.com/photo-1758705477576-8783430d55b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0",
+  "https://images.unsplash.com/photo-1653821355692-03666613499f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0",
 ];
 
 export function Hero() {
   const [current, setCurrent] = useState(0);
+  const [fading, setFading] = useState(false);
   const timerRef = useRef<number | null>(null);
-  const [isFading, setIsFading] = useState(false);
+  const currentRef = useRef(0);
 
-  function startAutoplay() {
-    stopAutoplay();
-    timerRef.current = window.setInterval(() => {
-      fadeTo((prevIndexRef() + 1) % SLIDES.length);
-    }, 4000);
+  function fadeTo(next: number) {
+    setFading(true);
+    window.setTimeout(() => {
+      setCurrent(next);
+      currentRef.current = next;
+      setFading(false);
+    }, 350);
   }
 
-  function stopAutoplay() {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
+  function startAutoplay() {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(() => {
+      fadeTo((currentRef.current + 1) % SLIDES.length);
+    }, 5000);
   }
 
   useEffect(() => {
     startAutoplay();
-    return () => stopAutoplay();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
-
-  function prevIndexRef() {
-    // helper to read the latest index inside interval
-    return (document.body.dataset.heroIndex
-      ? Number(document.body.dataset.heroIndex)
-      : current) as number;
-  }
-
-  useEffect(() => {
-    document.body.dataset.heroIndex = String(current);
-  }, [current]);
-
-  function fadeTo(nextIndex: number) {
-    setIsFading(true);
-    window.setTimeout(() => {
-      setCurrent(nextIndex);
-      setIsFading(false);
-    }, 250);
-  }
 
   function goNext() {
     fadeTo((current + 1) % SLIDES.length);
@@ -61,81 +46,102 @@ export function Hero() {
     fadeTo((current - 1 + SLIDES.length) % SLIDES.length);
     startAutoplay();
   }
-  function scrollToId(id: string) {
-    const el = document.querySelector(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+
+  function goTo(i: number) {
+    if (i === current) return;
+    fadeTo(i);
+    startAutoplay();
+  }
+
+  function scrollTo(id: string) {
+    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
-    <section className="relative h-[600px] bg-black-900 overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none">
+    <section className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* Background slides */}
+      <div className="absolute inset-0 z-0">
         <img
           key={current}
           src={SLIDES[current]}
           alt=""
           role="presentation"
           aria-hidden="true"
-          decoding="async"
-          loading="eager"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 pointer-events-none ${
-            isFading ? "opacity-0" : "opacity-100"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-350 ${
+            fading ? "opacity-0" : "opacity-100"
           }`}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/60 to-black/60 pointer-events-none"></div>
+        {/* Layered gradient: dark top for header legibility + dark bottom for text */}
+        <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/30 to-black/70" />
       </div>
 
-      {/* Arrows for manual sliding */}
+      {/* Prev / Next arrows */}
       <button
         aria-label="Previous slide"
         onClick={goPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/70 focus:outline-none z-50"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white border border-white/20 transition-all backdrop-blur-sm"
       >
-        <ChevronLeft className="h-7 w-7" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
       <button
         aria-label="Next slide"
         onClick={goNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/70 focus:outline-none z-50"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white border border-white/20 transition-all backdrop-blur-sm"
       >
-        <ChevronRight className="h-7 w-7" />
+        <ChevronRight className="w-5 h-5" />
       </button>
 
-      
-      <div className="relative z-50 pointer-events-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-        <div className="text-center w-full reveal-hidden">
-          <h1 className="text-4xl md:text-6xl text-white mb-6 text-shadow">
-            Welcome to <span className="text-yellow-300">Munastars Rentals</span>
+      {/* Main content */}
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-yellow-500/20 border border-yellow-400/40 text-yellow-300 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
+            Premium Event Rentals
+          </div>
+
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight mb-6 drop-shadow-lg">
+            Munastars{" "}
+            <span className="text-yellow-400">Rentals</span>
           </h1>
-          <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto text-shadow">
-            We bring your celebrations to life with high-quality party essentials and elegant décor. 
-            Whether you're hosting a wedding, birthday, corporate event, or community gathering, 
-            we provide the perfect rentals to make your event seamless and unforgettable.
+
+          <p className="text-lg sm:text-xl text-white/85 max-w-2xl mx-auto mb-10 leading-relaxed">
+            We bring your celebrations to life — weddings, birthdays, corporate events, and more —
+            with premium rentals and elegant décor that make every moment unforgettable.
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-yellow-500 hover:bg-yellow-600 text-black"
-              onClick={() => scrollToId("#services")}
+            <button
+              onClick={() => scrollTo("#services")}
+              className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3.5 rounded-full text-base transition-all hover:scale-105 shadow-lg shadow-yellow-500/30"
             >
-              View Our Services
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-black hover:bg-white hover:text-black"
-              onClick={() => scrollToId("#contact")}
+              Explore Services
+            </button>
+            <button
+              onClick={() => scrollTo("#contact")}
+              className="bg-white/10 hover:bg-white/20 border border-white/40 text-white font-semibold px-8 py-3.5 rounded-full text-base transition-all backdrop-blur-sm hover:scale-105"
             >
               Get Free Quote
-            </Button>
-          </div>
-          <div className="mt-8">
-            <p className="text-white text-lg border-white text-black hover:bg-white hover:text-black transition-all duration-300">✨ Where Your Wishes Shine Bright ✨</p>
+            </button>
           </div>
         </div>
       </div>
-      {/* No manual controls per request */}
+
+      {/* Dot indicators */}
+      <div className="relative z-10 flex justify-center gap-2 pb-10">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`transition-all duration-300 rounded-full ${
+              i === current
+                ? "w-8 h-2 bg-yellow-400"
+                : "w-2 h-2 bg-white/50 hover:bg-white/80"
+            }`}
+          />
+        ))}
+      </div>
     </section>
   );
 }

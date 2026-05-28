@@ -1,68 +1,111 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
-import { Phone, Mail } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
+import { Menu, X, Phone } from "lucide-react";
+
+const NAV_LINKS = [
+  ["Services", "#services"],
+  ["About", "#about"],
+  ["Contact", "#contact"],
+] as const;
 
 export function Header() {
-  function scrollToId(id: string) {
-    const el = document.querySelector(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  function scrollTo(id: string) {
+    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+    setOpen(false);
   }
-  // const navigate = useNavigate();
 
   return (
-    <header className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center space-x-4">
-            <img
-              src="/favicon.svg"
-              alt="Munastars Rentals logo"
-              className="h-12 w-auto md:h-14"
-            />
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">
-                Munastars Rentals
-              </h1>
-              <p className="text-sm text-gray-600">
-                Where Your Wishes Shine Bright
-              </p>
-            </div>
-          </Link>
-          
-          <nav className="hidden md:flex items-center space-x-8">
-            <a
-              href="#services"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              Services
-            </a>
-            <a
-              href="#about"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              About
-            </a>
-            <a
-              href="#contact"
-              className="text-gray-700 hover:text-primary transition-colors"
-            >
-              Contact
-            </a>
-          </nav>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
+        <Link to="/" className="flex items-center gap-3 min-w-0">
+          <img src="/favicon.svg" alt="Munastars Rentals logo" className="h-10 w-auto shrink-0" />
+          <div className="hidden sm:block">
+            <p className={`font-semibold text-sm leading-tight transition-colors ${scrolled ? "text-gray-900" : "text-white"}`}>
+              Munastars Rentals
+            </p>
+            <p className={`text-xs transition-colors ${scrolled ? "text-yellow-500" : "text-yellow-300"}`}>
+              Where Your Wishes Shine Bright
+            </p>
+          </div>
+        </Link>
 
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
-              <Phone className="w-4 h-4" />
-              <span>(555) 123-4567</span>
-            </div>
-            <Button onClick={() => scrollToId("#contact")}>Get Quote</Button>
+        <nav className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map(([label, id]) => (
+            <button
+              key={id}
+              onClick={() => scrollTo(id)}
+              className={`text-sm font-medium transition-colors ${
+                scrolled
+                  ? "text-gray-700 hover:text-yellow-500"
+                  : "text-white/90 hover:text-yellow-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        <div className="hidden md:flex items-center gap-5">
+          <a
+            href="tel:+15551234567"
+            className={`flex items-center gap-2 text-sm transition-colors ${
+              scrolled ? "text-gray-600 hover:text-gray-900" : "text-white/80 hover:text-white"
+            }`}
+          >
+            <Phone className="w-4 h-4" />
+            (555) 123-4567
+          </a>
+          <button
+            onClick={() => scrollTo("#contact")}
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold text-sm px-5 py-2.5 rounded-full transition-colors"
+          >
+            Get Free Quote
+          </button>
+        </div>
+
+        <button
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+          className={`md:hidden p-2 transition-colors ${scrolled ? "text-gray-900" : "text-white"}`}
+        >
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="md:hidden bg-white border-t shadow-lg">
+          <div className="px-6 py-4 flex flex-col">
+            {NAV_LINKS.map(([label, id]) => (
+              <button
+                key={id}
+                onClick={() => scrollTo(id)}
+                className="w-full text-left py-3 text-gray-800 font-medium border-b border-gray-100 last:border-0 hover:text-yellow-500 transition-colors"
+              >
+                {label}
+              </button>
+            ))}
+            <button
+              onClick={() => scrollTo("#contact")}
+              className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-full transition-colors"
+            >
+              Get Free Quote
+            </button>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }
