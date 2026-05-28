@@ -10,6 +10,13 @@ import { ServiceDetail } from "./components/ServiceDetail";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { useReveal } from "./hooks/useReveal";
 
+// Import service detail pages
+import Detailservice from "./pages/services/index.tsx";
+import ChairsTables from "./pages/services/chairsTables.tsx";
+import Chaffingdishes from "./pages/services/chaffingdishes.tsx";
+import Chargerplates from "./pages/services/chargerplates.tsx";
+import Flowerseventdecor from "./pages/services/flowerseventdecor.tsx";
+
 function HomePage() {
   useReveal();
   return (
@@ -33,6 +40,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/service/:id" element={<ServiceDetail />} />
+        <Route path="/detail" element={<Detailservice />} />
+        <Route path="/chairsTables" element={<ChairsTables />} />
+        <Route path="/chaffingdishes" element={<Chaffingdishes />} />
+        <Route path="/chargerplates" element={<Chargerplates />} />
+        <Route path="/flowerseventdecor" element={<Flowerseventdecor />} />
       </Routes>
     </Router>
   );
