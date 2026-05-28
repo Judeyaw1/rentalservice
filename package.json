@@ -34,8 +34,6 @@
     "@tailwindcss/postcss": "^4.1.15",
     "@tailwindcss/vite": "^4.1.15",
     "@vitejs/plugin-react-swc": "^3.10.2",
-    "@swc/core-linux-x64-gnu": "*",
-    "@swc/core-linux-x64-musl": "*",
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "*",
@@ -58,6 +56,10 @@
     "tailwindcss": "^4.1.15",
     "vaul": "^1.1.2",
     "vite": "6.3.5"
+  },
+  "optionalDependencies": {
+    "@swc/core-linux-x64-gnu": "*",
+    "@swc/core-linux-x64-musl": "*"
   },
   "devDependencies": {
     "@types/node": "^20.10.0"
