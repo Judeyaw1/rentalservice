@@ -2,13 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
-import { Services } from "./components/Services";
-import { About } from "./components/About";
-import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { ServiceDetail } from "./components/ServiceDetail";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { useReveal } from "./hooks/useReveal";
 
 // Import top-level pages
 import ServicesPage from "./pages/ServicesPage";
@@ -23,16 +19,10 @@ import Chargerplates from "./pages/services/chargerplates.tsx";
 import Flowerseventdecor from "./pages/services/flowerseventdecor.tsx";
 
 function HomePage() {
-  useReveal();
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="reveal-hidden" id="hero-wrapper">
-        <Hero />
-      </div>
-      <Services />
-      <About />
-      <Contact />
+      <Hero />
       <Footer />
     </div>
   );
