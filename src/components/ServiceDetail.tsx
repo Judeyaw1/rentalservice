@@ -39,8 +39,7 @@ export function ServiceDetail() {
   }
 
   function goToContact() {
-    navigate("/");
-    setTimeout(() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }), 150);
+    navigate("/contact");
   }
 
   return (

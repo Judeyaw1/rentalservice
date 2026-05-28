@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SLIDES = [
@@ -9,6 +10,7 @@ const SLIDES = [
 ];
 
 export function Hero() {
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [fading, setFading] = useState(false);
   const timerRef = useRef<number | null>(null);
@@ -53,9 +55,6 @@ export function Hero() {
     startAutoplay();
   }
 
-  function scrollTo(id: string) {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-  }
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
@@ -112,13 +111,13 @@ export function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => scrollTo("#services")}
+              onClick={() => navigate("/services")}
               className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3.5 rounded-full text-base transition-all hover:scale-105 shadow-lg shadow-yellow-500/30"
             >
               Explore Services
             </button>
             <button
-              onClick={() => scrollTo("#contact")}
+              onClick={() => navigate("/contact")}
               className="bg-white/10 hover:bg-white/20 border border-white/40 text-white font-semibold px-8 py-3.5 rounded-full text-base transition-all backdrop-blur-sm hover:scale-105"
             >
               Get Free Quote

@@ -2,6 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 
+const QUICK_LINKS = [
+  ["Services", "/services"],
+  ["About", "/about"],
+  ["Contact", "/contact"],
+] as const;
+
 const SERVICE_LINKS = [
   { label: "Chairs & Tables", path: "/chairsTables" },
   { label: "Chafing Dishes", path: "/chaffingdishes" },
@@ -19,10 +25,6 @@ const EVENT_TYPES = [
 ];
 
 export function Footer() {
-  function scrollTo(id: string) {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-  }
-
   return (
     <footer className="bg-gray-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
@@ -86,14 +88,14 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-5">Quick Links</h4>
             <ul className="space-y-2.5 mb-8">
-              {[["Services", "#services"], ["About", "#about"], ["Contact", "#contact"]].map(([label, id]) => (
-                <li key={id}>
-                  <button
-                    onClick={() => scrollTo(id)}
+              {QUICK_LINKS.map(([label, path]) => (
+                <li key={path}>
+                  <Link
+                    to={path}
                     className="text-sm text-gray-400 hover:text-yellow-400 transition-colors"
                   >
                     {label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

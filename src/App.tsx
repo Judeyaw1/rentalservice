@@ -10,6 +10,11 @@ import { ServiceDetail } from "./components/ServiceDetail";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { useReveal } from "./hooks/useReveal";
 
+// Import top-level pages
+import ServicesPage from "./pages/ServicesPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+
 // Import service detail pages
 import Detailservice from "./pages/services/index.tsx";
 import ChairsTables from "./pages/services/chairsTables.tsx";
@@ -39,6 +44,9 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/service/:id" element={<ServiceDetail />} />
         <Route path="/detail" element={<Detailservice />} />
         <Route path="/chairsTables" element={<ChairsTables />} />

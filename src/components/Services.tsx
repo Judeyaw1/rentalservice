@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { services } from "../data/services";
 
 export function Services() {
+  const navigate = useNavigate();
   return (
     <section id="services" className="scroll-mt-20 py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,13 +60,12 @@ export function Services() {
             <h3 className="text-2xl font-bold text-white mb-1">Need something custom?</h3>
             <p className="text-gray-400">We offer tailored packages for any event size or theme.</p>
           </div>
-          <a
-            href="#contact"
-            onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
+          <button
+            onClick={() => navigate("/contact")}
             className="shrink-0 bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-8 py-3.5 rounded-full transition-all hover:scale-105 shadow-lg shadow-yellow-500/20"
           >
             Get a Free Quote
-          </a>
+          </button>
         </div>
       </div>
     </section>

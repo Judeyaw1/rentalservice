@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 
 const NAV_LINKS = [
-  ["Services", "#services"],
-  ["About", "#about"],
-  ["Contact", "#contact"],
+  ["Services", "/services"],
+  ["About", "/about"],
+  ["Contact", "/contact"],
 ] as const;
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  function scrollTo(id: string) {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-    setOpen(false);
-  }
 
   return (
     <header
@@ -43,10 +39,10 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map(([label, id]) => (
-            <button
-              key={id}
-              onClick={() => scrollTo(id)}
+          {NAV_LINKS.map(([label, path]) => (
+            <Link
+              key={path}
+              to={path}
               className={`text-sm font-medium transition-colors ${
                 scrolled
                   ? "text-gray-700 hover:text-yellow-500"
@@ -54,7 +50,7 @@ export function Header() {
               }`}
             >
               {label}
-            </button>
+            </Link>
           ))}
         </nav>
 
@@ -68,12 +64,12 @@ export function Header() {
             <Phone className="w-4 h-4" />
             (555) 123-4567
           </a>
-          <button
-            onClick={() => scrollTo("#contact")}
+          <Link
+            to="/contact"
             className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold text-sm px-5 py-2.5 rounded-full transition-colors"
           >
             Get Free Quote
-          </button>
+          </Link>
         </div>
 
         <button
@@ -88,21 +84,23 @@ export function Header() {
       {open && (
         <div className="md:hidden bg-white border-t shadow-lg">
           <div className="px-6 py-4 flex flex-col">
-            {NAV_LINKS.map(([label, id]) => (
-              <button
-                key={id}
-                onClick={() => scrollTo(id)}
+            {NAV_LINKS.map(([label, path]) => (
+              <Link
+                key={path}
+                to={path}
+                onClick={() => setOpen(false)}
                 className="w-full text-left py-3 text-gray-800 font-medium border-b border-gray-100 last:border-0 hover:text-yellow-500 transition-colors"
               >
                 {label}
-              </button>
+              </Link>
             ))}
-            <button
-              onClick={() => scrollTo("#contact")}
-              className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-full transition-colors"
+            <Link
+              to="/contact"
+              onClick={() => setOpen(false)}
+              className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-full transition-colors text-center"
             >
               Get Free Quote
-            </button>
+            </Link>
           </div>
         </div>
       )}

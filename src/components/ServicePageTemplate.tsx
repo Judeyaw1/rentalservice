@@ -136,17 +136,12 @@ export function ServicePageTemplate({
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{ctaHeading}</h2>
             <p className="text-gray-400 max-w-lg">{ctaBody}</p>
           </div>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/");
-              setTimeout(() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }), 150);
-            }}
+          <button
+            onClick={() => navigate("/contact")}
             className="shrink-0 bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-8 py-3.5 rounded-full transition-all hover:scale-105 shadow-lg shadow-yellow-500/20 whitespace-nowrap"
           >
             Get a Free Quote
-          </a>
+          </button>
         </motion.div>
       </section>
 
