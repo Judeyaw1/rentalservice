@@ -1,12 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { Footer } from "./components/Footer";
 import { ServiceDetail } from "./components/ServiceDetail";
 import { ScrollToTop } from "./components/ScrollToTop";
 
 // Import top-level pages
+import HomePage from "./pages/HomePage";
 import ServicesPage from "./pages/ServicesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -18,15 +16,6 @@ import Chaffingdishes from "./pages/services/chaffingdishes.tsx";
 import Chargerplates from "./pages/services/chargerplates.tsx";
 import Flowerseventdecor from "./pages/services/flowerseventdecor.tsx";
 
-function HomePage() {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <Hero />
-      <Footer />
-    </div>
-  );
-}
 
 export default function App() {
   return (
